@@ -263,3 +263,16 @@ transition: all ease-in-out 0.3s;
       box-shadow: 0 0 16px #ff2e63, 0 0 32px #ff2e63;
    }
 }
+
+.project-link {
+   font-size: 1.5rem;
+      font-weight: 700;
+      background: var(--gradient-hero);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transition: all ease-in-out 0.3s;
+}
+
+.project-link:hover {
+   text-shadow: 0 0 12px var(--accent1), 0 0 24px var(--accent2);
+}
