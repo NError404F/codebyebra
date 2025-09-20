@@ -1,40 +1,69 @@
-      (function () {
-         const btn = document.querySelector('.hamburger');
-         const panel = document.getElementById('mobile-menu');
-         const bar = btn.querySelector('.bar');
+document.addEventListener("DOMContentLoaded", () => {
+   // --- Mobile Menu Toggle ---
+   const menuBtn = document.getElementById("menu-btn");
+   const menuIcon = document.getElementById("menu-icon");
+   const mobileNav = document.getElementById("mobile-nav");
 
-         function open() {
-            btn.setAttribute('aria-expanded', 'true');
-            btn.setAttribute('aria-label', 'Close menu');
-            panel.classList.add('open');
-            panel.setAttribute('aria-hidden', 'false');
-            // animate bar to X
-            bar.style.transform = 'rotate(45deg)';
-            bar.style.background = 'white';
-            bar.style.marginTop = '0';
-            bar.style.opacity = '1';
-            bar.style.setProperty('transition', 'transform .22s ease');
+   menuBtn.addEventListener("click", () => {
+      mobileNav.classList.toggle("hidden");
+
+      if (mobileNav.classList.contains("hidden")) {
+         menuIcon.classList.replace("bi-x", "bi-list");
+      } else {
+         menuIcon.classList.replace("bi-list", "bi-x");
+      }
+   });
+
+   // --- Smooth Scroll Function (reusable) ---
+   function smoothScrollTo(targetY, duration) {
+      const startY = window.scrollY || window.pageYOffset;
+      const diff = targetY - startY;
+      let startTime = null;
+
+      function step(currentTime) {
+         if (!startTime) startTime = currentTime;
+         const timeElapsed = currentTime - startTime;
+         const progress = Math.min(timeElapsed / duration, 1);
+
+         // easeInOutCubic
+         const ease =
+            progress < 0.5 ?
+            4 * progress * progress * progress :
+            1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+         window.scrollTo(0, startY + diff * ease);
+
+         if (timeElapsed < duration) requestAnimationFrame(step);
+      }
+
+      requestAnimationFrame(step);
+   }
+
+   // --- Anchor Links Smooth Scroll ---
+   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener("click", function (e) {
+         e.preventDefault();
+         const target = document.querySelector(this.getAttribute("href"));
+         if (target) {
+            smoothScrollTo(target.offsetTop, 600);
          }
+      });
+   });
 
-         function close() {
-            btn.setAttribute('aria-expanded', 'false');
-            btn.setAttribute('aria-label', 'Open menu');
-            panel.classList.remove('open');
-            panel.setAttribute('aria-hidden', 'true');
-            bar.style.transform = '';
-            bar.style.background = '';
-            bar.style.removeProperty('margin-top');
-         }
+   // --- Go To Top Button ---
+   const goTopBtn = document.getElementById("goTopBtn");
 
-         btn.addEventListener('click', function () {
-            if (btn.getAttribute('aria-expanded') === 'true') close(); else open();
-         });
+   window.addEventListener("scroll", () => {
+      if (window.scrollY > 300) {
+         goTopBtn.classList.add("show");
+         goTopBtn.classList.remove("hide");
+      } else {
+         goTopBtn.classList.add("hide");
+         goTopBtn.classList.remove("show");
+      }
+   });
 
-         // close on outside click
-         document.addEventListener('click', function (e) {
-            if (!panel.contains(e.target) && !btn.contains(e.target) && panel.classList.contains('open')) close();
-         });
-
-         // close on escape
-         document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
-      })();
+   goTopBtn.addEventListener("click", () => {
+      smoothScrollTo(0, 600);
+   });
+});
