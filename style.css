@@ -276,3 +276,11 @@ transition: all ease-in-out 0.3s;
 .project-link:hover {
    text-shadow: 0 0 12px var(--accent1), 0 0 24px var(--accent2);
 }
+
+.tech-item {
+   transition: all ease 0.3s;
+}
+
+.tech-item:hover {
+   transform: scale(1.2);
+}

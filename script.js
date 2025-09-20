@@ -106,3 +106,30 @@ document.addEventListener("DOMContentLoaded", () => {
   fetchStatus();
   setInterval(fetchStatus, 60000);
 });
+
+  const originalTitle = document.title;
+
+  window.addEventListener("blur", () => {
+    document.title = "💔 Come back, I miss you! 💔";
+  });
+
+  window.addEventListener("focus", () => {
+    document.title = originalTitle;
+  });
+
+  const brandEl = document.getElementById("brand");
+  const brandText = "CodeByEbra";
+  let i = 0;
+
+  function typeBrand() {
+    if (i < brandText.length) {
+      brandEl.textContent += brandText.charAt(i);
+      i++;
+      setTimeout(typeBrand, 80); // typing speed
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    brandEl.textContent = "";  // make sure it's empty
+    typeBrand();
+  });
