@@ -73,20 +73,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const statusDot = document.getElementById("status-dot");
   const statusText = document.getElementById("status-text");
 
-
-  // 👉 Replace this with your gist raw URL
+  // ✅ Direct gist raw URL
   const gistUrl = "https://gist.githubusercontent.com/NError404F/2134ebcba345065c106b393cfc3dab64/raw/status.txt";
-  const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(gistUrl)}`;
 
   async function fetchStatus() {
     try {
-      const response = await fetch(proxyUrl);
+      // Bypass cache by adding timestamp
+      const response = await fetch(`${gistUrl}?t=${Date.now()}`);
       let text = await response.text();
 
-      // Normalize input
-      text = text.trim();
+      text = text.trim(); // Normalize input
 
-      console.log("Fetched status value:", JSON.stringify(text)); // Debug
+      console.log("Fetched status value:", JSON.stringify(text));
 
       if (text === "1") {
         statusWrapper.className = "available";
