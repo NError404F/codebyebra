@@ -67,3 +67,44 @@ document.addEventListener("DOMContentLoaded", () => {
       smoothScrollTo(0, 600);
    });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const statusWrapper = document.getElementById("work-status");
+  const statusDot = document.getElementById("status-dot");
+  const statusText = document.getElementById("status-text");
+
+
+  // 👉 Replace this with your gist raw URL
+  const gistUrl = "https://gist.githubusercontent.com/NError404F/2134ebcba345065c106b393cfc3dab64/raw/status.txt";
+  const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(gistUrl)}`;
+
+  async function fetchStatus() {
+    try {
+      const response = await fetch(proxyUrl);
+      let text = await response.text();
+
+      // Normalize input
+      text = text.trim();
+
+      console.log("Fetched status value:", JSON.stringify(text)); // Debug
+
+      if (text === "1") {
+        statusWrapper.className = "available";
+        statusText.textContent = "Available For Work";
+      } else if (text === "0") {
+        statusWrapper.className = "unavailable";
+        statusText.textContent = "Unavailable For Work";
+      } else {
+        statusWrapper.className = "unknown";
+        statusText.textContent = "Unknown";
+      }
+    } catch (err) {
+      console.error("Error fetching status:", err);
+      statusWrapper.className = "unknown";
+      statusText.textContent = "Unknown";
+    }
+  }
+
+  fetchStatus();
+  setInterval(fetchStatus, 60000);
+});

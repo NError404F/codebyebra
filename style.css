@@ -192,3 +192,74 @@ transition: all ease-in-out 0.3s;
    background: var(--accent2);
    box-shadow: 0 0 12px var(--accent2);
 }
+
+#work-status {
+   padding: 6px 14px;
+   border-radius: 30px;
+   font-weight: 600;
+   color: var(--text);
+   display: inline-flex;
+   align-items: center;
+   gap: 8px;
+   background: rgba(255, 255, 255, 0.05);
+   backdrop-filter: blur(6px);
+   border: 1px solid rgba(255, 255, 255, 0.1);
+   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+   font-size: 0.9rem;
+   transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+/* Dot */
+.status-dot {
+   width: 12px;
+   height: 12px;
+   border-radius: 50%;
+   display: inline-block;
+   position: relative;
+}
+
+/* Green glow (Available) */
+.available .status-dot {
+   background: #00ff73;
+   box-shadow: 0 0 8px #00ff73, 0 0 20px #00ff73;
+   animation: pulseGreen 2s infinite ease-in-out;
+}
+
+/* Red glow (Unavailable) */
+.unavailable .status-dot {
+   background: #ff2e63;
+   box-shadow: 0 0 8px #ff2e63, 0 0 20px #ff2e63;
+   animation: pulseRed 2s infinite ease-in-out;
+}
+
+/* Grey (Fallback / Unknown) */
+.unknown .status-dot {
+   background: #6c757d;
+   box-shadow: 0 0 6px #6c757d;
+}
+
+/* Green Pulse */
+@keyframes pulseGreen {
+
+   0%,
+   100% {
+      box-shadow: 0 0 6px #00ff73, 0 0 12px #00ff73;
+   }
+
+   50% {
+      box-shadow: 0 0 16px #00ff73, 0 0 32px #00ff73;
+   }
+}
+
+/* Red Pulse */
+@keyframes pulseRed {
+
+   0%,
+   100% {
+      box-shadow: 0 0 6px #ff2e63, 0 0 12px #ff2e63;
+   }
+
+   50% {
+      box-shadow: 0 0 16px #ff2e63, 0 0 32px #ff2e63;
+   }
+}
